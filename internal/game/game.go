@@ -46,11 +46,13 @@ func ShowHangman(hangman []rune, attempts int) [7][9]string {
 func RandomWord(wordFile []rune) [][]string {
 	var wordTab [][]string
 	compter := 0
+	wordTab = append(wordTab, []string{})
 	for i := 0; i < len(wordFile); i++ {
-		if rune(wordFile[i]) != 10 {
-			wordTab = append(wordTab, wordFile[i])
+		if wordFile[i] != 10 {
+			wordTab[compter] = append(wordTab[compter], string(wordFile[i]))
 		} else {
 			compter++
+			wordTab = append(wordTab, []string{})
 		}
 	}
 	return wordTab
