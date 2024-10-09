@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 )
 
 type HangManData struct {
@@ -13,38 +14,18 @@ type HangManData struct {
 	HangmanPositions [10]string // It can be the array where the positions parsed in "hangman.txt" are stored
 }
 
-func Init() {
-	var data HangManData
-	//data.ToFind = RandomWord("hangman-classic/data/word.txt")
-	//data.Word = len(data.ToFind)
-	data.Attempts = 10
-}
-
-func ReadFile(nameFile string) []byte {
+func ReadFile(nameFile string) []rune {
 	fileContent, err := ioutil.ReadFile(nameFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 	// Convert []byte to string
-	return fileContent
+	result := string(fileContent)
+	return []rune(result)
 }
 
-func ShowHangman(hangman []rune, attempts int) [7][9]string {
-	var tab [7][9]string
-	//var tabReturn [10]string
-	for i := 0; i < 7; i++ {
-		for j := 0; j < 9; j++ {
-			if rune(hangman[i*j]) != 10 {
-				tab[i][j] = string(hangman[i*j])
-			}
-		}
-	}
-	fmt.Println(tab)
-	return tab
-	//sfpijfohizrzhfuofheu
-}
-
-func RandomWord(wordFile []rune) [][]string {
+func TransfomTab(wordFile []rune) [][]string {
+	// a integrer dans ReadFile
 	var wordTab [][]string
 	counter := 0
 	wordTab = append(wordTab, []string{})
@@ -57,4 +38,37 @@ func RandomWord(wordFile []rune) [][]string {
 		}
 	}
 	return wordTab
+}
+
+func RandomWord(list [][]string, data *HangManData) {
+	randomWordPos := rand.Intn(len(list))
+	for i := 0; i < len(list[randomWordPos]); i++ {
+		data.Word += "_"
+		data.ToFind += list[randomWordPos][i]
+	}
+}
+
+func ShowHangman(hangman [][]string, attempts int) {
+	var tab [7][9]string
+	//var tabReturn [10]string
+	for i := 0; i < len(tab); i++ {
+		for j := 0; j < len(tab[i]); j++ {
+			if hangman[i+attempts*i][j] != "\n" {
+				tab[i][j] = hangman[i+attempts*i][j]
+			}
+		}
+	}
+	for i := 0; i < len(tab); i++ {
+		for j := 0; j < len(tab[i]); j++ {
+			fmt.Print(tab[i][j])
+		}
+		fmt.Print("\n")
+	}
+}
+
+func Init() {
+	var data HangManData
+	data.Attempts = 10
+	RandomWord(TransfomTab(ReadFile("data/words.txt")), &data)
+	ShowHangman(TransfomTab(ReadFile("data/hangman.txt")), 2)
 }
