@@ -49,18 +49,11 @@ func RandomWord(list [][]string, data *HangManData) {
 }
 
 func ShowHangman(hangman [][]string, attempts int) {
-	var tab [7][9]string
-	//var tabReturn [10]string
-	for i := 0; i < len(tab); i++ {
-		for j := 0; j < len(tab[i]); j++ {
-			if hangman[i+attempts*i][j] != "\n" {
-				tab[i][j] = hangman[i+attempts*i][j]
+	for i := 0; i < 7; i++ {
+		for j := 0; j < 9; j++ {
+			if hangman[i+attempts*7][j] != "\n" {
+				fmt.Print(hangman[i+attempts*7][j])
 			}
-		}
-	}
-	for i := 0; i < len(tab); i++ {
-		for j := 0; j < len(tab[i]); j++ {
-			fmt.Print(tab[i][j])
 		}
 		fmt.Print("\n")
 	}
@@ -70,5 +63,5 @@ func Init() {
 	var data HangManData
 	data.Attempts = 10
 	RandomWord(TransfomTab(ReadFile("data/words.txt")), &data)
-	ShowHangman(TransfomTab(ReadFile("data/hangman.txt")), 2)
+	ShowHangman(TransfomTab(ReadFile("data/hangman.txt")), 1)
 }
