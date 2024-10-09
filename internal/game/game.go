@@ -41,17 +41,18 @@ func ShowHangman(hangman []rune, attempts int) [7][9]string {
 	}
 	fmt.Println(tab)
 	return tab
+	//sfpijfohizrzhfuofheu
 }
 
 func RandomWord(wordFile []rune) [][]string {
 	var wordTab [][]string
-	compter := 0
+	counter := 0
 	wordTab = append(wordTab, []string{})
 	for i := 0; i < len(wordFile); i++ {
 		if wordFile[i] != 10 {
-			wordTab[compter] = append(wordTab[compter], string(wordFile[i]))
+			wordTab[counter] = append(wordTab[counter], string(wordFile[i]))
 		} else {
-			compter++
+			counter++
 			wordTab = append(wordTab, []string{})
 		}
 	}
