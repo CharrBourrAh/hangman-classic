@@ -2,9 +2,13 @@ package game
 
 import (
 	"fmt"
+	"hangman-classic/internal/input"
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"os"
+	"os/exec"
+	"strings"
 )
 
 type HangManData struct {
@@ -20,8 +24,7 @@ func ReadFile(nameFile string) []rune {
 		log.Fatal(err)
 	}
 	// Convert []byte to string
-	result := string(fileContent)
-	return []rune(result)
+	return []rune(string(fileContent))
 }
 
 func TransfomTab(wordFile []rune) [][]string {
@@ -70,11 +73,45 @@ func Init() {
 	var data HangManData
 	data.Attempts = 10
 	RandomWord(TransfomTab(ReadFile("data/words.txt")), &data)
-	ShowHangman(TransfomTab(ReadFile("data/hangman.txt")), 10)
+	Game(&data)
 }
 
 func Game(data *HangManData) {
-	for data.Word != data.ToFind {
-
+	copyWord := strings.Split(data.Word, "")
+	for data.Word != data.ToFind && data.Attempts > 0 {
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+		//fmt.Println(ShowHangman(data.))
+		fmt.Println(data.Word)
+		userInput := input.Input()
+		for i := 0; i < len(data.ToFind); i++ {
+			if len(userInput) > 1 {
+				//menu.Menu()
+				if userInput == "/r" {
+					Init()
+				}
+			} else {
+				for j := 0; j < len(data.Word); j++ {
+					if userInput == string(data.ToFind[j]) {
+						copyWord[j] = userInput
+					}
+				}
+			}
+		}
+		if strings.Join(copyWord, "") == data.Word {
+			data.Attempts -= 1
+		} else {
+			data.Word = strings.Join(copyWord, "")
+		}
+		println(data.Attempts)
+	}
+	cmd := exec.Command("cmd", "/c", "cls")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+	if data.Attempts == 0 {
+		fmt.Println(data.Word + "\nYou loose :( \nYou've needed to find " + data.ToFind)
+	} else {
+		fmt.Println("You've won horray :D\nYou've needed to find " + data.ToFind)
 	}
 }

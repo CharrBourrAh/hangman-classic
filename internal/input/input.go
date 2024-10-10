@@ -6,7 +6,7 @@ func Input() string {
 
 	var userInput string
 	forbiddenCharacters := "0123456789-*+_"
-	fmt.Println("Enter an input 😊
+	fmt.Println("Enter an input :")
 	data, err := fmt.Scanf("%s \n", &userInput)
 	if err != nil || data != 1 {
 		return "Error"
