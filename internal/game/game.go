@@ -48,14 +48,28 @@ func RandomWord(list [][]string, data *HangManData) {
 }
 
 func ShowHangman(hangman [][]string, attempts int) {
-	hangmanReturn := hangman[attempts*7 : (attempts+1)*7]
-	for i := 0; i < len(hangmanReturn); i++ {
-		for j := 0; j < len(hangmanReturn[i]); j++ {
-			fmt.Print(hangmanReturn[i][j])
+	var hangmanReturn [][]string
+	lenHangman := 7
+	for i := 0; i < lenHangman; i++ {
+		if len(hangmanReturn[i]) != 0 {
+			for j := 0; j < len(hangmanReturn[i]); j++ {
+				hangmanReturn[i][j] = hangman[i][j]
+			}
+		} else {
+			i++
+			lenHangman++
+		}
+	}
+	for i2 := 0; i2 < len(hangmanReturn); i2++ {
+		if len(hangmanReturn[i2]) != 0 {
+			for j2 := 0; j2 < len(hangmanReturn[i2]); j2++ {
+				fmt.Print(hangmanReturn[i2][j2])
+			}
 		}
 		fmt.Print("\n")
 	}
 }
+
 func Init() {
 	var data HangManData
 	data.Attempts = 10
@@ -66,20 +80,18 @@ func Init() {
 
 func Game(data *HangManData) {
 	copyWord := strings.Split(data.Word, "")
+	//var usedLetters []string
 	for data.Word != data.ToFind && data.Attempts > 0 {
-		cmd := exec.Command("cmd", "/c", "cls")
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-		ShowHangman(data.HangmanPositions, data.Attempts)
+		//ShowHangman(data.HangmanPositions, data.Attempts)
 		fmt.Println(data.Word)
-		userInput := input.Input()
+		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			if len(userInput) > 1 {
 				//menu.Menu()
 				if userInput == "/r" {
 					Init()
 				}
-			} else {
+			} else if len(userInput) == 1 {
 				for j := 0; j < len(data.Word); j++ {
 					if userInput == string(data.ToFind[j]) {
 						copyWord[j] = userInput
@@ -87,16 +99,27 @@ func Game(data *HangManData) {
 				}
 			}
 		}
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		err := cmd.Run()
+		if err != nil {
+			fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
+			return
+		}
 		if strings.Join(copyWord, "") == data.Word {
 			data.Attempts -= 1
+			fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
 		} else {
 			data.Word = strings.Join(copyWord, "")
 		}
-		println(data.Attempts)
 	}
 	cmd := exec.Command("cmd", "/c", "cls")
 	cmd.Stdout = os.Stdout
-	cmd.Run()
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
+		return
+	}
 	if data.Attempts == 0 {
 		fmt.Println(data.Word + "\nYou loose :( \nYou've needed to find " + data.ToFind)
 	} else {
