@@ -3,11 +3,11 @@ package game
 import (
 	"fmt"
 	"hangman-classic/internal/input"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
 	"os/exec"
+	"slices"
 	"strings"
 )
 
@@ -19,7 +19,7 @@ type HangManData struct {
 }
 
 func ReadFile(nameFile string) [][]string {
-	content, err := ioutil.ReadFile(nameFile)
+	content, err := os.ReadFile(nameFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -51,9 +51,10 @@ func ShowHangman(hangman [][]string, attempts int) {
 	var hangmanReturn [][]string
 	lenHangman := 7
 	for i := 0; i < lenHangman; i++ {
-		if len(hangmanReturn[i]) != 0 {
-			for j := 0; j < len(hangmanReturn[i]); j++ {
-				hangmanReturn[i][j] = hangman[i][j]
+		if len(hangman[i]) != 0 {
+			hangmanReturn = append(hangmanReturn, hangman[i*attempts])
+			for j := 0; j < 9; j++ {
+				hangmanReturn[i] = append(hangmanReturn[i], hangman[i*attempts][j])
 			}
 		} else {
 			i++
@@ -80,7 +81,7 @@ func Init() {
 
 func Game(data *HangManData) {
 	copyWord := strings.Split(data.Word, "")
-	//var usedLetters []string
+	var usedLetters []string
 	for data.Word != data.ToFind && data.Attempts > 0 {
 		//ShowHangman(data.HangmanPositions, data.Attempts)
 		fmt.Println(data.Word)
@@ -98,20 +99,23 @@ func Game(data *HangManData) {
 					}
 				}
 			}
+			cmd := exec.Command("cmd", "/c", "cls")
+			cmd.Stdout = os.Stdout
+			err := cmd.Run()
+			if err != nil {
+				fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
+				return
+			}
 		}
-		cmd := exec.Command("cmd", "/c", "cls")
-		cmd.Stdout = os.Stdout
-		err := cmd.Run()
-		if err != nil {
-			fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
-			return
-		}
-		if strings.Join(copyWord, "") == data.Word {
+		if strings.Join(copyWord, "") == data.Word && slices.Contains(usedLetters, userInput) == false {
 			data.Attempts -= 1
 			fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
+		} else if slices.Contains(usedLetters, userInput) == true {
+			fmt.Println("You've already used this letter before")
 		} else {
 			data.Word = strings.Join(copyWord, "")
 		}
+		usedLetters = append(usedLetters, userInput)
 	}
 	cmd := exec.Command("cmd", "/c", "cls")
 	cmd.Stdout = os.Stdout
