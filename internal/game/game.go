@@ -88,7 +88,7 @@ func Game(data *HangManData) {
 	for data.Word != data.ToFind && data.Attempts > 0 {
 		//ShowHangman(data.HangmanPositions, data.Attempts)
 		fmt.Println(data.Word)
-		fmt.Println(data.ToFind)
+		//fmt.Println(data.ToFind)
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			if len(userInput) == 2 {
