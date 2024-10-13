@@ -3,7 +3,6 @@ package input
 import "fmt"
 
 func Input() string {
-
 	var userInput string
 	forbiddenCharacters := "0123456789-*+_"
 	fmt.Println("Enter an input :")
