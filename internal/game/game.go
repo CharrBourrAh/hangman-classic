@@ -71,13 +71,13 @@ func ShowHangman(hangman [][]string, attempts int) {
 	}
 }
 
-func Init(Wordfile string) {
-	if Wordfile == "" {
-		Wordfile = "data/words.txt"
+func Init(WordFile string) {
+	if WordFile == "" {
+		WordFile = "data/words.txt"
 	}
 	var data HangManData
 	data.Attempts = 10
-	RandomWord(ReadFile(Wordfile), &data)
+	RandomWord(ReadFile(WordFile), &data)
 	data.HangmanPositions = ReadFile("data/hangman.txt")
 	Game(&data)
 }
