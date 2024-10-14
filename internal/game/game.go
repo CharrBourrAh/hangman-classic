@@ -48,24 +48,9 @@ func RandomWord(list [][]string, data *HangManData) {
 }
 
 func ShowHangman(hangman [][]string, attempts int) {
-	var hangmanReturn [][]string
-	lenHangman := 7
-	for i := 0; i < lenHangman; i++ {
-		if len(hangman[i]) != 0 {
-			hangmanReturn = append(hangmanReturn, hangman[i*attempts])
-			for j := 0; j < 9; j++ {
-				hangmanReturn[i] = append(hangmanReturn[i], hangman[i*attempts][j])
-			}
-		} else {
-			i++
-			lenHangman++
-		}
-	}
-	for i2 := 0; i2 < len(hangmanReturn); i2++ {
-		if len(hangmanReturn[i2]) != 0 {
-			for j2 := 0; j2 < len(hangmanReturn[i2]); j2++ {
-				fmt.Print(hangmanReturn[i2][j2])
-			}
+	for i := 8 * attempts; i < 8+8*attempts-1; i++ {
+		for j := 0; j < len(hangman[i]); j++ {
+			fmt.Print(hangman[i][j])
 		}
 		fmt.Print("\n")
 	}
@@ -86,15 +71,18 @@ func Game(data *HangManData) {
 	copyWord := strings.Split(data.Word, "")
 	var usedLetters []string
 	for data.Word != data.ToFind && data.Attempts > 0 {
-		//ShowHangman(data.HangmanPositions, data.Attempts)
+		ShowHangman(data.HangmanPositions, 10-data.Attempts)
 		fmt.Println(data.Word)
 		fmt.Println(data.ToFind)
+		//fmt.Println(data.HangmanPositions)
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			if len(userInput) == 2 {
 				//menu.Menu()
 				if userInput == "/r" {
 					Init("")
+				} else if userInput == "/m" {
+					Menu()
 				}
 			} else if len(userInput) == 1 {
 				for j := 0; j < len(data.Word); j++ {
@@ -140,5 +128,45 @@ func Game(data *HangManData) {
 		fmt.Println(data.Word + "\nYou loose :( \nYou've needed to find " + data.ToFind)
 	} else {
 		fmt.Println("You've won horray :D\nYou've successfully found " + data.ToFind)
+	}
+}
+
+func Menu() {
+	clearCMD()
+	mainMenuAscii := "  __  __       _                                    \n |  \\/  |     (_)                                   \n | \\  / | __ _ _ _ __    _ __ ___   ___ _ __  _   _ \n | |\\/| |/ _` | | '_ \\  | '_ ` _ \\ / _ \\ '_ \\| | | |\n | |  | | (_| | | | | | | | | | | |  __/ | | | |_| |\n |_|  |_|\\__,_|_|_| |_| |_| |_| |_|\\___|_| |_|\\__,_|\n                                                    \n                                                    "
+	fmt.Print(mainMenuAscii)
+	fmt.Println("\n" + "\033[32m" + "s" + "\033[0m" + " : launch a game")
+	fmt.Println("\x1b[33m" + "o" + "\033[0m" + " : opens the game's settings")
+	fmt.Println("\033[31m" + "q / e" + "\033[0m" + " : exit the game")
+	choice := input.Input()
+	if choice == "s" {
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		err := cmd.Run()
+		if err != nil {
+			fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
+			return
+		}
+		Init("") // launches the game
+	}
+	if choice == "o" {
+		clearCMD()
+		fmt.Println("\n   _____      _   _   _                 \n  / ____|    | | | | (_)                \n | (___   ___| |_| |_ _ _ __   __ _ ___ \n  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|\n  ____) |  __/ |_| |_| | | | | (_| \\__ \\\n |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/\n                               __/ |    \n                              |___/     \n")
+		fmt.Println("w : Choose which word file you want to use to play")
+		choice = input.Input()
+	}
+	if choice == "q" || choice == "e" {
+		clearCMD()
+		os.Exit(3) // Exit the program
+	}
+}
+
+func clearCMD() {
+	cmd := exec.Command("cmd", "/c", "cls")
+	cmd.Stdout = os.Stdout
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
+		return
 	}
 }
