@@ -41,7 +41,7 @@ func ReadFile(nameFile string) [][]string {
 
 func RandomWord(list [][]string, data *HangManData) {
 	randomWordPos := rand.Intn(len(list))
-	for i := 0; i < len(list[randomWordPos])-1; i++ {
+	for i := 0; i < len(list[randomWordPos]); i++ {
 		data.Word += "_"
 		data.ToFind += list[randomWordPos][i]
 	}
@@ -88,7 +88,7 @@ func Game(data *HangManData) {
 	for data.Word != data.ToFind && data.Attempts > 0 {
 		//ShowHangman(data.HangmanPositions, data.Attempts)
 		fmt.Println(data.Word)
-		//fmt.Println(data.ToFind)
+		fmt.Println(data.ToFind)
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			if len(userInput) == 2 {
@@ -105,6 +105,7 @@ func Game(data *HangManData) {
 			} else if len(userInput) > 2 {
 				if userInput == data.ToFind {
 					data.Word = data.ToFind
+					break
 				} else {
 					data.Attempts -= 1
 					break
