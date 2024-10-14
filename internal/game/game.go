@@ -3,6 +3,7 @@ package game
 import (
 	"fmt"
 	"hangman-classic/internal/input"
+	"hangman-classic/internal/save"
 	"hangman-classic/pkg/structs"
 	"log"
 	"math/rand"
@@ -77,6 +78,9 @@ func Game(data *structs.HangManData) {
 					Init("")
 				} else if userInput == "/m" {
 					Menu()
+				} else if userInput == "/s" {
+					save.StopAndSaveGame(data)
+					return
 				}
 			} else if len(userInput) == 1 {
 				for j := 0; j < len(data.Word); j++ {
