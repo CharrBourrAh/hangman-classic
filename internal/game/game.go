@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"hangman-classic/internal/input"
 	"hangman-classic/internal/save"
+	"hangman-classic/pkg/structs"
 	"log"
 	"math/rand"
 	"os"
@@ -11,13 +12,6 @@ import (
 	"slices"
 	"strings"
 )
-
-type HangManData struct {
-	Word             string     // Word composed of '_', ex: H_ll_
-	ToFind           string     // Final word chosen by the program at the beginning. It is the word to find
-	Attempts         int        // Number of attempts left
-	HangmanPositions [][]string // It can be the array where the positions parsed in "hangman.txt" are stored
-}
 
 func ReadFile(nameFile string) [][]string {
 	content, err := os.ReadFile(nameFile)
@@ -40,7 +34,7 @@ func ReadFile(nameFile string) [][]string {
 	return wordTab
 }
 
-func RandomWord(list [][]string, data *HangManData) {
+func RandomWord(list [][]string, data *structs.HangManData) {
 	randomWordPos := rand.Intn(len(list))
 	for i := 0; i < len(list[randomWordPos]); i++ {
 		data.Word += "_"
@@ -76,14 +70,14 @@ func Init(WordFile string) {
 	if WordFile == "" {
 		WordFile = "data/words.txt"
 	}
-	var data HangManData
+	var data structs.HangManData
 	data.Attempts = 10
 	RandomWord(ReadFile(WordFile), &data)
 	data.HangmanPositions = ReadFile("data/hangman.txt")
 	Game(&data)
 }
 
-func Game(data *HangManData) {
+func Game(data *structs.HangManData) {
 	copyWord := strings.Split(data.Word, "")
 	var usedLetters []string
 	for data.Word != data.ToFind && data.Attempts > 0 {

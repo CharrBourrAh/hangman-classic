@@ -2,17 +2,12 @@ package save
 
 import (
 	"encoding/json"
+	"hangman-classic/pkg/structs"
 	"log"
 	"os"
 )
 
-type HangManData struct {
-	ToFind   string
-	Word     string
-	Attempts int
-}
-
-func StopAndSaveGame(data *HangManData) {
+func StopAndSaveGame(data *structs.HangManData) {
 	data.ToFind = "tester"
 	data.Word = "t_st__"
 	data.Attempts = 6
@@ -29,8 +24,8 @@ func StopAndSaveGame(data *HangManData) {
 
 }
 
-func StartWithFlag(Start string) Hangman {
-	var data Hangman
+func StartWithFlag(Start string) structs.HangManData {
+	var data structs.HangManData
 	JsonData, _ := os.ReadFile(Start)
 	err := json.Unmarshal(JsonData, &data)
 	if err != nil {
