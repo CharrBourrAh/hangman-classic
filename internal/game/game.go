@@ -57,9 +57,15 @@ func Init(WordFile string) {
 	}
 	var data structs.HangManData
 	data.Attempts = 10
+	data.WordFile = WordFile
 	RandomWord(ReadFile(WordFile), &data)
 	data.HangmanPositions = ReadFile("data/hangman.txt")
 	Game(&data)
+}
+
+func Resume(fileData structs.HangManData) {
+	fileData.HangmanPositions = ReadFile("data/hangman.txt")
+	Game(&fileData)
 }
 
 func Game(data *structs.HangManData) {
@@ -73,9 +79,8 @@ func Game(data *structs.HangManData) {
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			if len(userInput) == 2 {
-				//menu.Menu()
 				if userInput == "/r" {
-					Init("")
+					Init(data.WordFile)
 				} else if userInput == "/m" {
 					Menu()
 				} else if userInput == "/s" {
@@ -97,13 +102,7 @@ func Game(data *structs.HangManData) {
 					break
 				}
 			}
-			cmd := exec.Command("cmd", "/c", "cls")
-			cmd.Stdout = os.Stdout
-			err := cmd.Run()
-			if err != nil {
-				fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
-				return
-			}
+			clearCMD()
 		}
 		if strings.Join(copyWord, "") == data.Word && slices.Contains(usedLetters, userInput) == false {
 			data.Attempts -= 1
@@ -133,9 +132,9 @@ func Menu() {
 	clearCMD()
 	mainMenuAscii := "  __  __       _                                    \n |  \\/  |     (_)                                   \n | \\  / | __ _ _ _ __    _ __ ___   ___ _ __  _   _ \n | |\\/| |/ _` | | '_ \\  | '_ ` _ \\ / _ \\ '_ \\| | | |\n | |  | | (_| | | | | | | | | | | |  __/ | | | |_| |\n |_|  |_|\\__,_|_|_| |_| |_| |_| |_|\\___|_| |_|\\__,_|\n                                                    \n                                                    "
 	fmt.Print(mainMenuAscii)
-	fmt.Println("\n" + "\033[32m" + "s" + "\033[0m" + " : launch a game")
-	fmt.Println("\x1b[33m" + "o" + "\033[0m" + " : opens the game's settings")
-	fmt.Println("\033[31m" + "q / e" + "\033[0m" + " : exit the game")
+	fmt.Println("\n" + "\033[32m" + "s" + "\033[0m" + " : launch a new game")
+	fmt.Println("\x1b[33m" + "o" + "\033[0m" + " : opens the game's settings (change the words files, use an ASCII letter mode)")
+	fmt.Println("\033[31m" + "q" + "\033[0m" + " : exit the game")
 	choice := input.Input()
 	if choice == "s" {
 		cmd := exec.Command("cmd", "/c", "cls")
@@ -150,10 +149,23 @@ func Menu() {
 	if choice == "o" {
 		clearCMD()
 		fmt.Println("\n   _____      _   _   _                 \n  / ____|    | | | | (_)                \n | (___   ___| |_| |_ _ _ __   __ _ ___ \n  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|\n  ____) |  __/ |_| |_| | | | | (_| \\__ \\\n |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/\n                               __/ |    \n                              |___/     \n")
-		fmt.Println("w : Choose which word file you want to use to play")
+		fmt.Println("Choose which word file you want to use to play")
+		fmt.Println("wone : Go back to the main menu")
+		fmt.Println("wtwo : Go back to the main menu")
+		fmt.Println("wthree : Go back to the main menu\n")
+		fmt.Println("e : Go back to the main menu")
 		choice = input.Input()
+		if choice == "e" {
+			Menu()
+		} else if choice == "wone" {
+			Init("data/words.txt")
+		} else if choice == "wtwo" {
+			Init("data/words2.txt")
+		} else if choice == "wthree" {
+			Init("data/words3.txt")
+		}
 	}
-	if choice == "q" || choice == "e" {
+	if choice == "q" {
 		clearCMD()
 		os.Exit(3) // Exit the program
 	}

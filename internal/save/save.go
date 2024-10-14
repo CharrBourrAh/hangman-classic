@@ -14,7 +14,7 @@ func StopAndSaveGame(data *structs.HangManData) {
 		"Attempts": data.Attempts,
 	}
 	DataGameJson, _ := json.MarshalIndent(mapReturn, "", " ")
-	err := os.WriteFile("save/save.json", DataGameJson, 0777)
+	err := os.WriteFile("save/save.txt", DataGameJson, 0777)
 	if err != nil {
 		log.Fatal(err)
 	}
