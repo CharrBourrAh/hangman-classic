@@ -130,44 +130,52 @@ func Game(data *structs.HangManData) {
 
 func Menu() {
 	clearCMD()
-	mainMenuAscii := "  __  __       _                                    \n |  \\/  |     (_)                                   \n | \\  / | __ _ _ _ __    _ __ ___   ___ _ __  _   _ \n | |\\/| |/ _` | | '_ \\  | '_ ` _ \\ / _ \\ '_ \\| | | |\n | |  | | (_| | | | | | | | | | | |  __/ | | | |_| |\n |_|  |_|\\__,_|_|_| |_| |_| |_| |_|\\___|_| |_|\\__,_|\n                                                    \n                                                    "
-	fmt.Print(mainMenuAscii)
-	fmt.Println("\n" + "\033[32m" + "s" + "\033[0m" + " : launch a new game")
-	fmt.Println("\x1b[33m" + "o" + "\033[0m" + " : opens the game's settings (change the words files, use an ASCII letter mode)")
-	fmt.Println("\033[31m" + "q" + "\033[0m" + " : exit the game")
-	choice := input.Input()
-	if choice == "s" {
-		cmd := exec.Command("cmd", "/c", "cls")
-		cmd.Stdout = os.Stdout
-		err := cmd.Run()
-		if err != nil {
-			fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
-			return
+	for {
+		mainMenuAscii := "  __  __       _                                    \n |  \\/  |     (_)                                   \n | \\  / | __ _ _ _ __    _ __ ___   ___ _ __  _   _ \n | |\\/| |/ _` | | '_ \\  | '_ ` _ \\ / _ \\ '_ \\| | | |\n | |  | | (_| | | | | | | | | | | |  __/ | | | |_| |\n |_|  |_|\\__,_|_|_| |_| |_| |_| |_|\\___|_| |_|\\__,_|\n                                                    \n                                                    "
+		fmt.Print(mainMenuAscii)
+		fmt.Println("\n" + "\033[32m" + "s" + "\033[0m" + " : launch a new game")
+		fmt.Println("\x1b[33m" + "o" + "\033[0m" + " : opens the game's settings (change the words files, use an ASCII letter mode)")
+		fmt.Println("\033[31m" + "q" + "\033[0m" + " : exit the game")
+		choice := input.Input()
+		if choice == "s" {
+			cmd := exec.Command("cmd", "/c", "cls")
+			cmd.Stdout = os.Stdout
+			err := cmd.Run()
+			if err != nil {
+				fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
+				return
+			}
+			Init("") // launches the game
 		}
-		Init("") // launches the game
-	}
-	if choice == "o" {
-		clearCMD()
-		fmt.Println("\n   _____      _   _   _                 \n  / ____|    | | | | (_)                \n | (___   ___| |_| |_ _ _ __   __ _ ___ \n  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|\n  ____) |  __/ |_| |_| | | | | (_| \\__ \\\n |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/\n                               __/ |    \n                              |___/     \n")
-		fmt.Println("Choose which word file you want to use to play")
-		fmt.Println("wone : Go back to the main menu")
-		fmt.Println("wtwo : Go back to the main menu")
-		fmt.Println("wthree : Go back to the main menu\n")
-		fmt.Println("e : Go back to the main menu")
-		choice = input.Input()
-		if choice == "e" {
-			Menu()
-		} else if choice == "wone" {
-			Init("data/words.txt")
-		} else if choice == "wtwo" {
-			Init("data/words2.txt")
-		} else if choice == "wthree" {
-			Init("data/words3.txt")
+		if choice == "o" {
+			for {
+				clearCMD()
+				fmt.Println("\n   _____      _   _   _                 \n  / ____|    | | | | (_)                \n | (___   ___| |_| |_ _ _ __   __ _ ___ \n  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|\n  ____) |  __/ |_| |_| | | | | (_| \\__ \\\n |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/\n                               __/ |    \n                              |___/     \n")
+				fmt.Println("Choose which word file you want to use to play")
+				fmt.Println("wi : Go back to the main menu")
+				fmt.Println("wii : Go back to the main menu")
+				fmt.Println("wiii : Go back to the main menu\n")
+				fmt.Println("e : Go back to the main menu")
+				choice = input.Input()
+				if choice == "e" {
+					Menu()
+				} else if choice == "wi" {
+					clearCMD()
+					Init("data/words.txt")
+				} else if choice == "wii" {
+					clearCMD()
+					Init("data/words2.txt")
+				} else if choice == "wiii" {
+					clearCMD()
+					Init("data/words3.txt")
+				}
+				choice = input.Input()
+			}
 		}
-	}
-	if choice == "q" {
-		clearCMD()
-		os.Exit(3) // Exit the program
+		if choice == "q" {
+			clearCMD()
+			os.Exit(3) // Exit the program
+		}
 	}
 }
 
