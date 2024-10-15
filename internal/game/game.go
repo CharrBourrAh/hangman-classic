@@ -100,8 +100,6 @@ func Game(data *structs.HangManData) {
 				if userInput == data.ToFind {
 					data.Word = data.ToFind
 					break
-				} else if userInput == "Error" {
-					break
 				} else {
 					data.Attempts -= 1
 					break
@@ -109,15 +107,17 @@ func Game(data *structs.HangManData) {
 			}
 			ClearCMD()
 		}
-		if strings.Join(copyWord, "") == data.Word && slices.Contains(data.AlreadyTriedLetters, userInput) == false {
-			data.Attempts -= 1
-			fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
-		} else if slices.Contains(data.AlreadyTriedLetters, userInput) == true {
-			fmt.Println("You've already used this letter before")
-		} else {
-			data.Word = strings.Join(copyWord, "")
+		if strings.Contains("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN", userInput) == true {
+			if strings.Join(copyWord, "") == data.Word && slices.Contains(data.AlreadyTriedLetters, userInput) == false {
+				data.Attempts -= 1
+				fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
+			} else if slices.Contains(data.AlreadyTriedLetters, userInput) == true {
+				fmt.Println("You've already used this letter before")
+			} else {
+				data.Word = strings.Join(copyWord, "")
+			}
+			data.AlreadyTriedLetters = append(data.AlreadyTriedLetters, userInput)
 		}
-		data.AlreadyTriedLetters = append(data.AlreadyTriedLetters, userInput)
 	}
 	ClearCMD()
 	if data.Attempts == 0 {

@@ -14,7 +14,6 @@ func Input() string {
 		for j := 0; j < len(forbiddenCharacters); j++ {
 			if userInput[i] == forbiddenCharacters[j] {
 				fmt.Println("Error")
-				return "Error"
 			}
 		}
 	}

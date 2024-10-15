@@ -1,9 +1,13 @@
 {
  "AlreadyTriedLetters": [
-  "e",
-  "f"
+  "l",
+  "c",
+  "t",
+  "z",
+  "t",
+  "p"
  ],
- "Attempts": 9,
- "ToFind": "entree",
- "Word": "e___ee"
+ "Attempts": 8,
+ "ToFind": "lecture\r",
+ "Word": "l_ct___"
 }
