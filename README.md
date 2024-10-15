@@ -9,4 +9,7 @@ This project's goal was to recreate the Hangman game in golang.
 <h2>How to play</h2>
 ***
 
-In order to start a new game, if 
+In order to start a new game, you can either :
+<ul>
+<li>Launching the game without any argument will launch the menu where you can start a new game as well </li>
+</ul>
