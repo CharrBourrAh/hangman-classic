@@ -9,9 +9,10 @@ import (
 
 func StopAndSaveGame(data *structs.HangManData) {
 	mapReturn := map[string]interface{}{
-		"ToFind":   data.ToFind,
-		"Word":     data.Word,
-		"Attempts": data.Attempts,
+		"ToFind":              data.ToFind,
+		"Word":                data.Word,
+		"Attempts":            data.Attempts,
+		"AlreadyTriedLetters": data.AlreadyTriedLetters,
 	}
 	DataGameJson, _ := json.MarshalIndent(mapReturn, "", " ")
 	err := os.WriteFile("save/save.txt", DataGameJson, 0777)

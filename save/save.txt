@@ -1,5 +1,9 @@
 {
+ "AlreadyTriedLetters": [
+  "e",
+  "f"
+ ],
  "Attempts": 9,
- "ToFind": "chaise",
- "Word": "ch____"
+ "ToFind": "entree",
+ "Word": "e___ee"
 }
