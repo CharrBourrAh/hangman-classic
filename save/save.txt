@@ -1,0 +1,5 @@
+{
+ "Attempts": 9,
+ "ToFind": "chaise",
+ "Word": "ch____"
+}
