@@ -13,9 +13,9 @@ In order to start a game, you can either :
 
 * Launching the game without any argument will launch the menu where you can start a new game as well as opening the menu in order to choose which word files you wanted to use for the game
 
-* Launching the game by using arguments (this will skip the menu and launch the game) : 
+- Launching the game by using arguments (this will skip the menu and launch the game) : 
 
-** Writing the word file name ```go run ./cmd words2.txt``` will use a word in the words2.txt file
+  - Writing the word file name ```go run ./cmd words2.txt``` will use a word in the words2.txt file
 
 
 
