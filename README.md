@@ -10,14 +10,12 @@ This project's goal was to recreate the Hangman game in golang.
 ***
 
 In order to start a game, you can either :
-<ul>
-<li>Launching the game without any argument will launch the menu where you can start a new game as well as opening the menu in order to choose which word files you wanted to use for the game</li>
-<br>
-<li>Launching the game by using arguments (this will skip the menu and launch the game) : 
-<ul>
-<li>Writing the word file name ```go run ./cmd words2.txt``` will use a word in the words2.txt file</li>
-</ul></li>
-<li>
-test
-</li>
-</ul>
+
+* Launching the game without any argument will launch the menu where you can start a new game as well as opening the menu in order to choose which word files you wanted to use for the game
+
+* Launching the game by using arguments (this will skip the menu and launch the game) : 
+
+* Writing the word file name ```go run ./cmd words2.txt``` will use a word in the words2.txt file
+
+
+
