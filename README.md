@@ -1,6 +1,5 @@
 <h1>Hangman classic</h1>
 
-***
 
 This project's goal was to recreate the Hangman game in golang.
 
