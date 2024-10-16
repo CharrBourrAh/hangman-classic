@@ -35,3 +35,6 @@ During a game, the program will ask the user to enter a valid character (capital
 * /s : save the current game and writes the information in ```save/data.txt```
 
 ***
+
+
+<a href="https://trello.com/invite/b/67052d4d9addbd1237aa2f53/ATTIf9dfc8cfabb4bd037d9451a424cac9346DEABC09/hangman-classic">Link to the trello</a><br>
