@@ -70,7 +70,7 @@ func Init(WordFile string) {
 	data.WordFile = WordFile
 	RandomWord(ReadFile(WordFile), &data)
 	data.HangmanPositions = ReadFile("data/hangman.txt")
-	data.AlreadyTriedLetters = []string{}
+	data.AlreadyTried = []string{}
 	Game(&data)
 }
 
@@ -85,18 +85,21 @@ func Game(data *structs.HangManData) {
 		ShowHangman(data.HangmanPositions, 10-data.Attempts)
 		fmt.Println(data.Word)
 		fmt.Print("Already guessed letters / words : ")
-		fmt.Println(data.AlreadyTriedLetters)
+		fmt.Println(data.AlreadyTried)
 		fmt.Println(data.ToFind)
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			if len(userInput) == 2 {
 				if userInput == "/r" {
 					ClearCMD()
+					// initialize a new game
 					Init(data.WordFile)
 				} else if userInput == "/m" {
 					ClearCMD()
+					//launches the menu
 					Menu()
 				} else if userInput == "/s" {
+					// save data to the save.txt file
 					save.StopAndSaveGame(data)
 					ClearCMD()
 					fmt.Println("The game has been saved into save.txt")
@@ -115,7 +118,7 @@ func Game(data *structs.HangManData) {
 						data.Attempts -= 2
 						ClearCMD()
 						fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
-						data.AlreadyTriedLetters = append(data.AlreadyTriedLetters, userInput)
+						data.AlreadyTried = append(data.AlreadyTried, userInput)
 						break
 					} else {
 						data.Word = data.ToFind
@@ -126,15 +129,15 @@ func Game(data *structs.HangManData) {
 			ClearCMD()
 		}
 		if isLetter(userInput) == true && len(userInput) == 1 {
-			if strings.Join(copyWord, "") == data.Word && slices.Contains(data.AlreadyTriedLetters, userInput) == false {
+			if strings.Join(copyWord, "") == data.Word && slices.Contains(data.AlreadyTried, userInput) == false {
 				data.Attempts -= 1
 				fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
-			} else if slices.Contains(data.AlreadyTriedLetters, userInput) == true {
+			} else if slices.Contains(data.AlreadyTried, userInput) == true {
 				fmt.Println("You've already used this letter before")
 			} else {
 				data.Word = strings.Join(copyWord, "")
 			}
-			data.AlreadyTriedLetters = append(data.AlreadyTriedLetters, userInput)
+			data.AlreadyTried = append(data.AlreadyTried, userInput)
 		}
 	}
 	ClearCMD()
@@ -151,7 +154,7 @@ func Menu() {
 		mainMenuAscii := "  __  __       _                                    \n |  \\/  |     (_)                                   \n | \\  / | __ _ _ _ __    _ __ ___   ___ _ __  _   _ \n | |\\/| |/ _` | | '_ \\  | '_ ` _ \\ / _ \\ '_ \\| | | |\n | |  | | (_| | | | | | | | | | | |  __/ | | | |_| |\n |_|  |_|\\__,_|_|_| |_| |_| |_| |_|\\___|_| |_|\\__,_|\n                                                    \n                                                    "
 		fmt.Print(mainMenuAscii)
 		fmt.Println("\n" + "\033[32m" + "s" + "\033[0m" + " : launch a new game")
-		fmt.Println("\x1b[33m" + "o" + "\033[0m" + " : opens the game's settings (change the words files, use an ASCII letter mode)")
+		fmt.Println("\x1b[33m" + "o" + "\033[0m" + " : opens the game's settings (change the words files)")
 		fmt.Println("\033[31m" + "q" + "\033[0m" + " : exit the game")
 		choice := input.Input()
 		if choice == "s" {
