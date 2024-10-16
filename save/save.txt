@@ -1,9 +1,6 @@
 {
- "AlreadyTriedLetters": [
-  "a",
-  "e"
- ],
+ "AlreadyTried": [],
  "Attempts": 10,
- "ToFind": "escalier",
- "Word": "e__a__e_"
+ "ToFind": "classe",
+ "Word": "______"
 }
