@@ -11,7 +11,7 @@ This project's goal was to recreate the Hangman game in golang.
 
 ***
 
-In order to play this game without any problems, we highly recommend you to preferably use Windows as your operating system
+In order to play this game without any problems, we highly recommend you to use Windows as your operating system
 
 <h2>How to play</h2>
 
@@ -61,9 +61,9 @@ Enter an input :
 
 * /r : restart the game using the same words file
 * /m : opens the main menu
-* /s : save the current game and writes the information in ```save/data.txt```
+* /s : save the current game, writes the information in ```save/data.txt``` and leave the program
 
 ***
 
 
-**<a href="https://trello.com/invite/b/67052d4d9addbd1237aa2f53/ATTIf9dfc8cfabb4bd037d9451a424cac9346DEABC09/hangman-classic">Link to the trello</a><br>**
+**<a href="https://trello.com/invite/b/67052d4d9addbd1237aa2f53/ATTIf9dfc8cfabb4bd037d9451a424cac9346DEABC09/hangman-classic" target="_blank">Link to the trello</a><br>**

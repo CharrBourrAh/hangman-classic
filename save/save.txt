@@ -1,14 +1,16 @@
 {
  "AlreadyTriedLetters": [
-  "h",
-  "e",
-  "h",
-  "k",
-  "e",
-  "z",
-  "m"
+  "c",
+  "g",
+  "b",
+  "a",
+  "ine",
+  "",
+  "",
+  "",
+  ""
  ],
  "Attempts": 7,
- "ToFind": "cheveux",
- "Word": "_he_e__"
+ "ToFind": "cabinet",
+ "Word": "cab____"
 }
