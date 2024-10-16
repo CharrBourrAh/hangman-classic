@@ -130,6 +130,7 @@ func Game(data *structs.HangManData) {
 			if len(userInput) >= 2 {
 				if isLetter(userInput) == true {
 					if isInList(data.AlreadyTried, userInput) == true {
+						ClearCMD()
 						fmt.Println("You've already used this word before")
 						break
 					} else {
@@ -157,6 +158,7 @@ func Game(data *structs.HangManData) {
 				fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
 			} else if slices.Contains(data.AlreadyTried, userInput) == true {
 				// if the letter has already been tried
+				ClearCMD()
 				fmt.Println("You've already used this letter before")
 			} else {
 				// if the guessed letter is correct
