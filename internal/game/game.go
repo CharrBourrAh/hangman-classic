@@ -23,6 +23,15 @@ func isLetter(s string) bool {
 	return true
 }
 
+func isInList(list []string, s string) bool {
+	for _, r := range list {
+		if r == s {
+			return true
+		}
+	}
+	return false
+}
+
 func ReadFile(nameFile string) [][]string {
 	content, err := os.ReadFile(nameFile)
 	if err != nil {
@@ -33,8 +42,10 @@ func ReadFile(nameFile string) [][]string {
 	var wordTab [][]string
 	counter := 0
 	wordTab = append(wordTab, []string{})
+	// filling wordTab
 	for i := 0; i < len(wordFile); i++ {
 		if wordFile[i] != 10 {
+			// if the character is not a new line character
 			wordTab[counter] = append(wordTab[counter], string(wordFile[i]))
 		} else {
 			counter++
@@ -63,9 +74,11 @@ func ShowHangman(hangman [][]string, attempts int) {
 
 func Init(WordFile string) {
 	if WordFile == "" {
+		// default word file
 		WordFile = "data/words.txt"
 	}
 	var data structs.HangManData
+	// variables initialisation
 	data.Attempts = 10
 	data.WordFile = WordFile
 	RandomWord(ReadFile(WordFile), &data)
@@ -116,17 +129,22 @@ func Game(data *structs.HangManData) {
 			}
 			if len(userInput) >= 2 {
 				if isLetter(userInput) == true {
-					if userInput != data.ToFind {
-						// If the given word is incorrect
-						data.Attempts -= 2
-						ClearCMD()
-						fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
-						data.AlreadyTried = append(data.AlreadyTried, userInput)
+					if isInList(data.AlreadyTried, userInput) == true {
+						fmt.Println("You've already used this word before")
 						break
 					} else {
-						// If the given word is correct
-						data.Word = data.ToFind
-						break
+						if userInput != data.ToFind {
+							// If the given word is incorrect
+							data.Attempts -= 2
+							ClearCMD()
+							fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
+							data.AlreadyTried = append(data.AlreadyTried, userInput)
+							break
+						} else {
+							// If the given word is correct
+							data.Word = data.ToFind
+							break
+						}
 					}
 				}
 			}
