@@ -55,7 +55,7 @@ Not present in the word, 8 attempts remaining
 =========
 e__de
 Already guessed letters / words : [e d z m]
-etude
+
 Enter an input :
 ````
 <h3>Special commands</h3>
