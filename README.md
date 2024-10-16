@@ -60,9 +60,9 @@ Enter an input :
 ````
 <h3>Special commands</h3>
 
-* /r : restart the game using the same words file
+* /r : restarts the game using the same words file
 * /m : opens the main menu
-* /s : save the current game, writes the information in ```save/data.txt``` and leave the program
+* /s : saves the current game, writes the information in ```save/data.txt``` and leaves the program
 
 ***
 
