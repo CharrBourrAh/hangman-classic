@@ -4,9 +4,11 @@ import "fmt"
 
 func Input() string {
 	var userInput string
+	// all the forbidden characters are written in the following string
 	forbiddenCharacters := "1234567890°+&é\"(-è_çà)'=^$*ù!:;,?.§%¨£µ€<>~#{[|`\\]}@"
 	fmt.Println("Enter an input :")
 	data, err := fmt.Scanf("%s \n", &userInput)
+	// handling errors
 	if err != nil || data != 1 {
 		fmt.Println("Error")
 	}
