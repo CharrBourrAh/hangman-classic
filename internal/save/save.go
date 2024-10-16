@@ -13,7 +13,7 @@ func StopAndSaveGame(data *structs.HangManData) {
 		"ToFind":              data.ToFind,
 		"Word":                data.Word,
 		"Attempts":            data.Attempts,
-		"AlreadyTriedLetters": data.AlreadyTriedLetters,
+		"AlreadyTriedLetters": data.AlreadyTried,
 	}
 	// creating a save file with json format in the save/save.txt file
 	DataGameJson, _ := json.MarshalIndent(mapReturn, "", " ")

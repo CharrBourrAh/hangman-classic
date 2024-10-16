@@ -89,6 +89,7 @@ func Game(data *structs.HangManData) {
 		fmt.Println(data.ToFind)
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
+			// Handling the special commands
 			if len(userInput) == 2 {
 				if userInput == "/r" {
 					ClearCMD()
@@ -107,6 +108,7 @@ func Game(data *structs.HangManData) {
 				}
 			} else if len(userInput) == 1 {
 				for j := 0; j < len(data.Word); j++ {
+					// Adding the given letter to the correct position(s)
 					if userInput == string(data.ToFind[j]) {
 						copyWord[j] = userInput
 					}
@@ -115,12 +117,14 @@ func Game(data *structs.HangManData) {
 			if len(userInput) >= 2 {
 				if isLetter(userInput) == true {
 					if userInput != data.ToFind {
+						// If the given word is incorrect
 						data.Attempts -= 2
 						ClearCMD()
 						fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
 						data.AlreadyTried = append(data.AlreadyTried, userInput)
 						break
 					} else {
+						// If the given word is correct
 						data.Word = data.ToFind
 						break
 					}
@@ -130,11 +134,14 @@ func Game(data *structs.HangManData) {
 		}
 		if isLetter(userInput) == true && len(userInput) == 1 {
 			if strings.Join(copyWord, "") == data.Word && slices.Contains(data.AlreadyTried, userInput) == false {
+				// if the previous letter list is similar with the new list, one attempt is remove
 				data.Attempts -= 1
 				fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
 			} else if slices.Contains(data.AlreadyTried, userInput) == true {
+				// if the letter has already been tried
 				fmt.Println("You've already used this letter before")
 			} else {
+				// if the guessed letter is correct
 				data.Word = strings.Join(copyWord, "")
 			}
 			data.AlreadyTried = append(data.AlreadyTried, userInput)
@@ -142,8 +149,10 @@ func Game(data *structs.HangManData) {
 	}
 	ClearCMD()
 	if data.Attempts == 0 {
+		// loose scenario
 		fmt.Println(data.Word + "\nYou loose :( \nYou've needed to find " + data.ToFind)
 	} else {
+		// win scenario
 		fmt.Println("You've won horray :D\nYou've successfully found " + data.ToFind)
 	}
 	Menu()
@@ -158,10 +167,12 @@ func Menu() {
 		fmt.Println("\033[31m" + "q" + "\033[0m" + " : exit the game")
 		choice := input.Input()
 		if choice == "s" {
+			// launches the game
 			ClearCMD()
-			Init("") // launches the game
+			Init("")
 		}
 		if choice == "o" {
+			// open the settings
 			for {
 				ClearCMD()
 				fmt.Println("\n   _____      _   _   _                 \n  / ____|    | | | | (_)                \n | (___   ___| |_| |_ _ _ __   __ _ ___ \n  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|\n  ____) |  __/ |_| |_| | | | | (_| \\__ \\\n |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/\n                               __/ |    \n                              |___/     \n")
@@ -174,12 +185,15 @@ func Menu() {
 				if choice == "e" {
 					Menu()
 				} else if choice == "wi" {
+					// launches the game with words.txt
 					ClearCMD()
 					Init("data/words.txt")
 				} else if choice == "wii" {
+					// launches the game with words2.txt
 					ClearCMD()
 					Init("data/words2.txt")
 				} else if choice == "wiii" {
+					// launches the game with words3.txt
 					ClearCMD()
 					Init("data/words3.txt")
 				}
@@ -187,13 +201,15 @@ func Menu() {
 			}
 		}
 		if choice == "q" {
+			// Exit the program
 			ClearCMD()
-			os.Exit(3) // Exit the program
+			os.Exit(3)
 		}
 	}
 }
 
 func ClearCMD() {
+	// clears the command prompt for better readability
 	cmd := exec.Command("cmd", "/c", "cls")
 	cmd.Stdout = os.Stdout
 	err := cmd.Run()
