@@ -67,4 +67,5 @@ Enter an input :
 ***
 
 
-**<a href="https://trello.com/invite/b/67052d4d9addbd1237aa2f53/ATTIf9dfc8cfabb4bd037d9451a424cac9346DEABC09/hangman-classic" target="_blank">Link to the trello</a><br>**
+**<a href="https://trello.com/invite/b/67052d4d9addbd1237aa2f53/ATTIf9dfc8cfabb4bd037d9451a424cac9346DEABC09/hangman-classic" target="_blank">Link to the Trello</a><br>**
+**<a href="https://www.canva.com/design/DAGTu_2CiRE/wEXuv16AquHAs2XkhUITkw/edit?utm_content=DAGTu_2CiRE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">Link to the Canva presentation</a><br>**
