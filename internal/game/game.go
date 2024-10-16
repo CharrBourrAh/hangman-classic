@@ -98,7 +98,9 @@ func Game(data *structs.HangManData) {
 					Menu()
 				} else if userInput == "/s" {
 					save.StopAndSaveGame(data)
-					return
+					ClearCMD()
+					fmt.Println("The game has been saved into save.txt")
+					os.Exit(3)
 				}
 			} else if len(userInput) == 1 {
 				for j := 0; j < len(data.Word); j++ {
@@ -107,20 +109,22 @@ func Game(data *structs.HangManData) {
 					}
 				}
 			}
-			if len(userInput) > 2 {
-				if userInput != data.ToFind {
-					data.Attempts -= 2
-					ClearCMD()
-					fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
-					break
-				} else {
-					data.Word = data.ToFind
-					break
+			if len(userInput) >= 2 {
+				if isLetter(userInput) == true {
+					if userInput != data.ToFind {
+						data.Attempts -= 2
+						ClearCMD()
+						fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
+						break
+					} else {
+						data.Word = data.ToFind
+						break
+					}
 				}
 			}
 			ClearCMD()
 		}
-		if strings.Contains("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN", userInput) == true {
+		if isLetter(userInput) == true && len(userInput) == 1 {
 			if strings.Join(copyWord, "") == data.Word && slices.Contains(data.AlreadyTriedLetters, userInput) == false {
 				data.Attempts -= 1
 				fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")

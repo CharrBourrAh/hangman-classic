@@ -8,7 +8,7 @@ func Input() string {
 	fmt.Println("Enter an input :")
 	data, err := fmt.Scanf("%s \n", &userInput)
 	if err != nil || data != 1 {
-		return "Error"
+		fmt.Println("Error")
 	}
 	for i := 0; i < len(userInput); i++ {
 		for j := 0; j < len(forbiddenCharacters); j++ {
