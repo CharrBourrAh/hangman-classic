@@ -11,7 +11,17 @@ import (
 	"os/exec"
 	"slices"
 	"strings"
+	"unicode"
 )
+
+func isLetter(s string) bool {
+	for _, r := range s {
+		if !unicode.IsLetter(r) {
+			return false
+		}
+	}
+	return true
+}
 
 func ReadFile(nameFile string) [][]string {
 	content, err := os.ReadFile(nameFile)
@@ -77,7 +87,6 @@ func Game(data *structs.HangManData) {
 		fmt.Print("Already guessed letters / words : ")
 		fmt.Println(data.AlreadyTriedLetters)
 		fmt.Println(data.ToFind)
-		//fmt.Println(data.HangmanPositions)
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			if len(userInput) == 2 {
@@ -85,6 +94,7 @@ func Game(data *structs.HangManData) {
 					ClearCMD()
 					Init(data.WordFile)
 				} else if userInput == "/m" {
+					ClearCMD()
 					Menu()
 				} else if userInput == "/s" {
 					save.StopAndSaveGame(data)
@@ -96,12 +106,15 @@ func Game(data *structs.HangManData) {
 						copyWord[j] = userInput
 					}
 				}
-			} else if len(userInput) > 2 {
-				if userInput == data.ToFind {
-					data.Word = data.ToFind
+			}
+			if len(userInput) > 2 {
+				if userInput != data.ToFind {
+					data.Attempts -= 2
+					ClearCMD()
+					fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
 					break
 				} else {
-					data.Attempts -= 1
+					data.Word = data.ToFind
 					break
 				}
 			}
@@ -116,8 +129,8 @@ func Game(data *structs.HangManData) {
 			} else {
 				data.Word = strings.Join(copyWord, "")
 			}
-			data.AlreadyTriedLetters = append(data.AlreadyTriedLetters, userInput)
 		}
+		data.AlreadyTriedLetters = append(data.AlreadyTriedLetters, userInput)
 	}
 	ClearCMD()
 	if data.Attempts == 0 {
@@ -125,10 +138,10 @@ func Game(data *structs.HangManData) {
 	} else {
 		fmt.Println("You've won horray :D\nYou've successfully found " + data.ToFind)
 	}
+	Menu()
 }
 
 func Menu() {
-	ClearCMD()
 	for {
 		mainMenuAscii := "  __  __       _                                    \n |  \\/  |     (_)                                   \n | \\  / | __ _ _ _ __    _ __ ___   ___ _ __  _   _ \n | |\\/| |/ _` | | '_ \\  | '_ ` _ \\ / _ \\ '_ \\| | | |\n | |  | | (_| | | | | | | | | | | |  __/ | | | |_| |\n |_|  |_|\\__,_|_|_| |_| |_| |_| |_|\\___|_| |_|\\__,_|\n                                                    \n                                                    "
 		fmt.Print(mainMenuAscii)
@@ -137,13 +150,7 @@ func Menu() {
 		fmt.Println("\033[31m" + "q" + "\033[0m" + " : exit the game")
 		choice := input.Input()
 		if choice == "s" {
-			cmd := exec.Command("cmd", "/c", "cls")
-			cmd.Stdout = os.Stdout
-			err := cmd.Run()
-			if err != nil {
-				fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
-				return
-			}
+			ClearCMD()
 			Init("") // launches the game
 		}
 		if choice == "o" {

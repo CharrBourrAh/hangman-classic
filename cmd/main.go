@@ -14,10 +14,9 @@ func main() {
 		} else if os.Args[1] == "--startWith" {
 			game.ClearCMD()
 			game.Resume(save.StartWithFlag("save/" + os.Args[2]))
-		} else if os.Args[1] == "--letterFile" {
-			//
 		}
 	} else {
+		game.ClearCMD()
 		game.Menu()
 	}
 }
