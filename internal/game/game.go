@@ -99,6 +99,7 @@ func Game(data *structs.HangManData) {
 		fmt.Println(data.Word)
 		fmt.Print("Already guessed letters / words : ")
 		fmt.Println(data.AlreadyTried)
+		fmt.Println()
 		userInput := strings.ToLower(input.Input())
 		for i := 0; i < len(data.ToFind); i++ {
 			// Handling the special commands
