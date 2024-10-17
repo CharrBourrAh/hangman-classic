@@ -80,11 +80,22 @@ func Init(WordFile string) {
 	var data structs.HangManData
 	// variables initialisation
 	data.Attempts = 10
+	data.AlreadyTried = []string{}
 	data.WordFile = WordFile
 	RandomWord(ReadFile(WordFile), &data)
+	randLetter(&data)
 	data.HangmanPositions = ReadFile("data/hangman.txt")
-	data.AlreadyTried = []string{}
 	Game(&data)
+}
+
+func randLetter(data *structs.HangManData) {
+	n := len(data.ToFind)/2 - 1
+	wordCopy := strings.Split(data.Word, "")
+	for i := 0; i < n; i++ {
+		randomIndex := rand.Intn(len(data.ToFind))
+		wordCopy[randomIndex] = strings.Split(data.ToFind, "")[randomIndex]
+	}
+	data.Word = strings.Join(wordCopy, "")
 }
 
 func Resume(fileData structs.HangManData) {
