@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+//is not being used
+
 func OpenAscii() [][]string {
 	var AsciiTable [][]string
 	AsciiFile, err := os.ReadFile("data/standard.txt")
