@@ -41,7 +41,10 @@ Enter an input :
   - Writing the argument ```--startWith``` followed by the name of the save file will resume the game that was previous save written on the specified file (ex: ```--startWith data/save.txt```)
 
 
-During a game, where the player has 10 attempts to find the word, the program will ask the user to enter a valid character (capital or lower alphabetic character(s) or a "/") or an entire word if the player thinks he guessed the right word (however, if it happens to not be the correct word, 2 attempts will be subtracted from the player's remaining attempts). If the player writes a letter that was not already used and that happens to be in the word, the program will modify the list of underscores by replacing the one(s) where the letter is contained in the word. If he enters a wrong letter, he loses an attempt, and the hangman printed out in the terminal is more and more completed.
+
+During a game, where the player has 10 attempts to find the word (which does have some letters that have already been revealed), the program will ask the user to enter a valid character (capital or lower alphabetic character(s) or a "/") or an entire word if the player thinks he guessed the right word (however, if it happens to not be the correct word, 2 attempts will be subtracted from the player's remaining attempts). If the player writes a letter that was not already used and that happens to be in the word, the program will modify the list of underscores by replacing the one(s) where the letter is contained in the word. If he enters a wrong letter, he loses an attempt, and the hangman printed out in the terminal is more and more completed.
+
+
 
 Example of a game :
 ````

@@ -1,6 +1,10 @@
 {
- "AlreadyTried": [],
- "Attempts": 10,
- "ToFind": "classe",
- "Word": "______"
+ "AlreadyTried": [
+  "p",
+  "r",
+  "e"
+ ],
+ "Attempts": 8,
+ "ToFind": "ville",
+ "Word": "_i__e"
 }
