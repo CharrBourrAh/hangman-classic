@@ -150,7 +150,9 @@ func Game(data *structs.HangManData) {
 							data.Attempts -= 2
 							ClearCMD()
 							fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
-							data.AlreadyTried = append(data.AlreadyTried, userInput)
+							if isInList(data.AlreadyTried, userInput) == false {
+								data.AlreadyTried = append(data.AlreadyTried, userInput)
+							}
 							break
 						} else {
 							// If the given word is correct
@@ -175,7 +177,9 @@ func Game(data *structs.HangManData) {
 				// if the guessed letter is correct
 				data.Word = strings.Join(copyWord, "")
 			}
-			data.AlreadyTried = append(data.AlreadyTried, userInput)
+			if isInList(data.AlreadyTried, userInput) == false {
+				data.AlreadyTried = append(data.AlreadyTried, userInput)
+			}
 		}
 	}
 	ClearCMD()
