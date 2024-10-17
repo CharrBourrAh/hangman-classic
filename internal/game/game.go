@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"hangman-classic/internal/input"
 	"hangman-classic/internal/save"
+	"hangman-classic/pkg/clearcmd"
 	"hangman-classic/pkg/structs"
 	"log"
 	"math/rand"
 	"os"
-	"os/exec"
 	"slices"
 	"strings"
 	"unicode"
@@ -55,7 +55,7 @@ func ReadFile(nameFile string) [][]string {
 	return wordTab
 }
 
-func RandomWord(list [][]string, data *structs.HangManData) {
+func randomWord(list [][]string, data *structs.HangManData) {
 	randomWordPos := rand.Intn(len(list))
 	for i := 0; i < len(list[randomWordPos])-1; i++ {
 		data.Word += "_"
@@ -63,7 +63,7 @@ func RandomWord(list [][]string, data *structs.HangManData) {
 	}
 }
 
-func ShowHangman(hangman [][]string, attempts int) {
+func showHangman(hangman [][]string, attempts int) {
 	for i := 8 * attempts; i < 8+8*attempts-1; i++ {
 		for j := 0; j < len(hangman[i]); j++ {
 			fmt.Print(hangman[i][j])
@@ -82,7 +82,7 @@ func Init(WordFile string) {
 	data.Attempts = 10
 	data.AlreadyTried = []string{}
 	data.WordFile = WordFile
-	RandomWord(ReadFile(WordFile), &data)
+	randomWord(ReadFile(WordFile), &data)
 	randLetter(&data)
 	data.HangmanPositions = ReadFile("data/hangman.txt")
 	Game(&data)
@@ -106,7 +106,7 @@ func Resume(fileData structs.HangManData) {
 func Game(data *structs.HangManData) {
 	copyWord := strings.Split(data.Word, "")
 	for data.Word != data.ToFind && data.Attempts > 0 {
-		ShowHangman(data.HangmanPositions, 10-data.Attempts)
+		showHangman(data.HangmanPositions, 10-data.Attempts)
 		fmt.Println(data.Word)
 		fmt.Print("Already guessed letters / words : ")
 		fmt.Println(data.AlreadyTried)
@@ -116,17 +116,17 @@ func Game(data *structs.HangManData) {
 			// Handling the special commands
 			if len(userInput) == 2 {
 				if userInput == "/r" {
-					ClearCMD()
+					clearcmd.ClearCMD()
 					// initialize a new game
 					Init(data.WordFile)
 				} else if userInput == "/m" {
-					ClearCMD()
+					clearcmd.ClearCMD()
 					//launches the menu
 					Menu()
 				} else if userInput == "/s" {
 					// save data to the save.txt file
 					save.StopAndSaveGame(data)
-					ClearCMD()
+					clearcmd.ClearCMD()
 					fmt.Println("The game has been saved into save.txt")
 					os.Exit(3)
 				}
@@ -141,14 +141,14 @@ func Game(data *structs.HangManData) {
 			if len(userInput) >= 2 {
 				if isLetter(userInput) == true {
 					if isInList(data.AlreadyTried, userInput) == true {
-						ClearCMD()
+						clearcmd.ClearCMD()
 						fmt.Println("You've already used this word before")
 						break
 					} else {
 						if userInput != data.ToFind {
 							// If the given word is incorrect
 							data.Attempts -= 2
-							ClearCMD()
+							clearcmd.ClearCMD()
 							fmt.Println("This word is incorrect. You have", data.Attempts, "attempts remaining")
 							if isInList(data.AlreadyTried, userInput) == false {
 								data.AlreadyTried = append(data.AlreadyTried, userInput)
@@ -162,7 +162,7 @@ func Game(data *structs.HangManData) {
 					}
 				}
 			}
-			ClearCMD()
+			clearcmd.ClearCMD()
 		}
 		if isLetter(userInput) == true && len(userInput) == 1 {
 			if strings.Join(copyWord, "") == data.Word && slices.Contains(data.AlreadyTried, userInput) == false {
@@ -171,7 +171,7 @@ func Game(data *structs.HangManData) {
 				fmt.Println("Not present in the word,", data.Attempts, "attempts remaining")
 			} else if slices.Contains(data.AlreadyTried, userInput) == true {
 				// if the letter has already been tried
-				ClearCMD()
+				clearcmd.ClearCMD()
 				fmt.Println("You've already used this letter before")
 			} else {
 				// if the guessed letter is correct
@@ -182,7 +182,7 @@ func Game(data *structs.HangManData) {
 			}
 		}
 	}
-	ClearCMD()
+	clearcmd.ClearCMD()
 	if data.Attempts == 0 {
 		// loose scenario
 		fmt.Println(data.Word + "\nYou loose :( \nYou've needed to find " + data.ToFind)
@@ -203,13 +203,13 @@ func Menu() {
 		choice := input.Input()
 		if choice == "s" {
 			// launches the game
-			ClearCMD()
+			clearcmd.ClearCMD()
 			Init("")
 		}
 		if choice == "o" {
 			// open the settings
 			for {
-				ClearCMD()
+				clearcmd.ClearCMD()
 				fmt.Println("\n   _____      _   _   _                 \n  / ____|    | | | | (_)                \n | (___   ___| |_| |_ _ _ __   __ _ ___ \n  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|\n  ____) |  __/ |_| |_| | | | | (_| \\__ \\\n |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/\n                               __/ |    \n                              |___/     \n")
 				fmt.Println("Choose which word file you want to use to play\n")
 				fmt.Println("wi : Launch a new game while using a word in words.txt")
@@ -221,15 +221,15 @@ func Menu() {
 					Menu()
 				} else if choice == "wi" {
 					// launches the game with words.txt
-					ClearCMD()
+					clearcmd.ClearCMD()
 					Init("data/words.txt")
 				} else if choice == "wii" {
 					// launches the game with words2.txt
-					ClearCMD()
+					clearcmd.ClearCMD()
 					Init("data/words2.txt")
 				} else if choice == "wiii" {
 					// launches the game with words3.txt
-					ClearCMD()
+					clearcmd.ClearCMD()
 					Init("data/words3.txt")
 				}
 				choice = input.Input()
@@ -237,20 +237,8 @@ func Menu() {
 		}
 		if choice == "q" {
 			// Exit the program
-			ClearCMD()
+			clearcmd.ClearCMD()
 			os.Exit(3)
 		}
-	}
-}
-
-func ClearCMD() {
-	// clears the command prompt for better readability
-	cmd := exec.Command("cmd", "/c", "cls")
-	cmd.Stdout = os.Stdout
-	err := cmd.Run()
-	// handling errors
-	if err != nil {
-		fmt.Println("This type of terminal is not supported by this game. Please use Windows' newer or classic Terminal app")
-		return
 	}
 }
